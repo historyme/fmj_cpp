@@ -1,0 +1,45 @@
+set(TARGET_fmj_ui_qt fmj_ui_qt)
+
+find_package(Qt4 REQUIRED)
+
+#自动生成moc文件
+set(CMAKE_AUTOMOC ON)
+#自动解析ui文件
+set(CMAKE_AUTOUIC ON)
+
+include(${QT_USE_FILE})
+
+set(TARGET_SRC_fmj_ui_qt
+main.cpp
+fmjwindow.cpp
+fmjwindow.h
+)
+
+
+set(TARGET_INC_DIR_fmj_ui_qt
+${SOURCE_DIR}/build/win32/src/UI/
+)
+
+include_directories(
+./
+../core/
+${TARGET_INC_DIR_fmj_ui_qt}
+${INCLUDE_DIR}
+${INCLUDE_DIR}/pthread/
+)
+
+link_directories(
+${SOURCE_DIR}/install/win32/
+${DLL_LIB_DIR}
+${DLL_LIB_DIR}/pthread/
+)
+
+add_executable(${TARGET_fmj_ui_qt}  ${TARGET_SRC_fmj_ui_qt})
+target_link_libraries(${TARGET_fmj_ui_qt}  ${QT_LIBRARIES} fmj_core)
+
+
+add_custom_command(TARGET ${TARGET_fmj_ui_qt}
+POST_BUILD
+COMMAND  copy  .\\Debug\\${TARGET_fmj_ui_qt}.*  ..\\..\\..\\..\\install\\win32
+
+)

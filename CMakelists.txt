@@ -1,0 +1,23 @@
+cmake_minimum_required(VERSION 2.8)
+
+project(fumoji)
+
+set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+
+set(INCLUDE_DIR ${SOURCE_DIR}/3rdparty/include/win32/)
+set(DLL_LIB_DIR ${SOURCE_DIR}/3rdparty/lib/win32/)
+set(INSTALL_DIR ${SOURCE_DIR}/install/win32/)
+set(RELEASE_DIR ${SOURCE_DIR}/release/win32/)
+
+
+#MESSAGE(STATUS "SOURCE_DIR:${SOURCE_DIR}")
+
+ADD_DEFINITIONS(
+-D_CRT_SECURE_NO_WARNINGS
+)
+
+#Ìí¼ÓÄ¿Â¼
+add_subdirectory(src)
+
+
+

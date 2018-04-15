@@ -1,0 +1,29 @@
+set(TARGET_unittest unittest)
+
+
+set(TARGET_SRC
+./main.cpp
+../core/SaveLoadStream.cpp
+../core/SaveLoadStream.h
+)
+
+
+
+include_directories(
+./
+../core/
+)
+
+link_directories(
+${DLL_LIB_DIR}
+)
+
+
+add_executable(${TARGET_unittest} ${TARGET_SRC})
+target_link_libraries(${TARGET_unittest} )
+
+add_custom_command(TARGET ${TARGET_unittest}
+POST_BUILD
+COMMAND  copy  .\\Debug\\${TARGET_unittest}.*  ..\\..\\..\\..\\install\\win32
+
+)

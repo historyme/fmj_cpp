@@ -1,0 +1,38 @@
+set(TARGET_fmj_ui_sdl1_2 fmj_ui_sdl1_2)
+
+set(TARGET_SRC_fmj_ui_sdl1_2
+main.cpp
+fmj_ui_sdl1_2.cpp
+fmj_ui_sdl1_2.h
+)
+
+
+set(TARGET_INC_DIR_fmj_ui_sdl1_2
+${SOURCE_DIR}/build/win32/src/UI/
+)
+
+include_directories(
+./
+../core/
+${TARGET_INC_DIR_fmj_ui_sdl1_2}
+${INCLUDE_DIR}
+${INCLUDE_DIR}/pthread/
+${INCLUDE_DIR}/SDL/
+)
+
+link_directories(
+${SOURCE_DIR}/install/win32/
+${DLL_LIB_DIR}
+${DLL_LIB_DIR}/pthread/
+${DLL_LIB_DIR}/SDL/
+)
+
+add_executable(${TARGET_fmj_ui_sdl1_2}  ${TARGET_SRC_fmj_ui_sdl1_2})
+target_link_libraries(${TARGET_fmj_ui_sdl1_2}  SDL_draw SDL_gfx SDL SDLmain  fmj_core)
+
+
+add_custom_command(TARGET ${TARGET_fmj_ui_sdl1_2}
+POST_BUILD
+COMMAND  copy  .\\Debug\\${TARGET_fmj_ui_sdl1_2}.*  ..\\..\\..\\..\\install\\win32
+
+)
