@@ -15,6 +15,7 @@ public:
     virtual void FillRect(void *distHaldle, int x, int y, int i, int j, int fillColor) = 0;
     virtual void FillColor(void *handle, int color) = 0;
     virtual void DrawScreen(void *haldle) = 0;
+    virtual void pollEvent(void) = 0;
 };
 
 

@@ -7,6 +7,7 @@ int main(int argc, char *argv[])
     fmjWindow w;
     w.setWindowTitle("fmj");
     w.show();
+    w.run();
 
-    return a.exec();
+    return 0;/*a.exec()*/;
 }

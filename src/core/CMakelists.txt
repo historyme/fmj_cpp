@@ -316,7 +316,7 @@ ${DLL_LIB_DIR}/pthread/
 
 
 add_library(${TARGET_fmj_core} ${TARGET_SRC})
-target_link_libraries(${TARGET_fmj_core} pthreadVC2)
+#target_link_libraries(${TARGET_fmj_core} pthreadVC2)
 
 add_custom_command(TARGET ${TARGET_fmj_core}
 POST_BUILD

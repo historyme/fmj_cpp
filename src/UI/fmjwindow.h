@@ -19,6 +19,8 @@ public:
     explicit fmjWindow(QWidget *parent = 0);
     ~fmjWindow();
 
+    void run(void);
+
 private:
     Ui::fmjWindow *ui;
     int convertKey(int key);

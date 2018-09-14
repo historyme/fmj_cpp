@@ -2,9 +2,6 @@
 #include "ScreenMainGame.h"
 #include "ScreenSaveLoadGame.h"
 #include "common.h"
-#include <pthread.h>
-
-pthread_mutex_t  stLock = PTHREAD_MUTEX_INITIALIZER;
 
 GameView::GameView()
 {
@@ -26,8 +23,9 @@ void GameView::initRes()
 
 //线程创建后执行的函数
 //图形的操作只会在这个线程中实现，所以不需要再图形处理的操作上加锁
-void *thread_routine(void *arg)
+void thread_routine()
 {
+    Manager *mManager = Manager::getInstance();
     std::vector<BaseScreen *>::const_iterator iter;
     GameView *view = GameView::getInstance();
     Canvas *canvas = view->mCanvas;
@@ -38,7 +36,7 @@ void *thread_routine(void *arg)
     long drawTime;
 
     //等待1ms，让UI先起来
-    SleepMilliSecond(1);
+    //SleepMilliSecond(1);
 
     gettimeofday(&lastTime, NULL);
     while (1)
@@ -48,7 +46,8 @@ void *thread_routine(void *arg)
             (lastTime.tv_sec * 1000 + lastTime.tv_usec / 1000);
         lastTime = curTime;
 
-        pthread_mutex_lock(&stLock);
+        //pollevent
+        mManager->getMethod()->pollEvent();
 
         //更新当前屏幕信息
         view->getCurScreen()->update(leaveTime);
@@ -73,7 +72,6 @@ void *thread_routine(void *arg)
             view->mPanel->paint();
         }
 
-        pthread_mutex_unlock(&stLock);
 
         gettimeofday(&curTime, NULL);
         drawTime = (curTime.tv_sec * 1000 + curTime.tv_usec / 1000) -
@@ -100,9 +98,7 @@ void GameView::run()
 
     bInitiated = true;
 
-    //创建线程用于主流程while(1)
-    pthread_t tid;
-    pthread_create(&tid, NULL, thread_routine, NULL);
+    thread_routine();
 }
 
 void GameView::changeScreen(int screenCode)
@@ -187,16 +183,12 @@ void GameView::initView()
 
 void GameView::keyDown(int key)
 {
-    pthread_mutex_lock(&stLock);
     getCurScreen()->onKeyDown(key);
-    pthread_mutex_unlock(&stLock);
 }
 
 void GameView::keyUp(int key)
 {
-    pthread_mutex_lock(&stLock);
     getCurScreen()->onKeyUp(key);
-    pthread_mutex_unlock(&stLock);
 }
 
 

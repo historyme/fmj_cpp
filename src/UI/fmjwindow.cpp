@@ -16,6 +16,7 @@ public:
     virtual void FillRect(void *distHaldle, int x, int y, int i, int j, int fillColor);
     virtual void FillColor(void *handle, int color);
     virtual void DrawScreen(void *haldle);
+    virtual void pollEvent(void);
 };
 
 void* QtHMMathod::InitBitmap(int w, int h, int type)
@@ -71,6 +72,11 @@ void QtHMMathod::DrawScreen(void *haldle)
     fmj->notifyShow(image);
 }
 
+void QtHMMathod::pollEvent(void)
+{
+    qApp->processEvents();
+}
+
 void QtHMMathod::DeleteBitmap(void *haldle)
 {
     QImage *image = (QImage *)haldle;
@@ -96,13 +102,16 @@ fmjWindow::fmjWindow(QWidget *parent) :
 
     Manager *man = Manager::getInstance();
     man->setMethod(new QtHMMathod);
-
-    gameMain *game_main = new gameMain();
 }
 
 fmjWindow::~fmjWindow()
 {
     delete ui;
+}
+
+void fmjWindow::run(void)
+{
+    gameMain *game_main = new gameMain();
 }
 
 void fmjWindow::doShow()
