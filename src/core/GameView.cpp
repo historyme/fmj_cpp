@@ -23,7 +23,7 @@ void GameView::initRes()
 
 //线程创建后执行的函数
 //图形的操作只会在这个线程中实现，所以不需要再图形处理的操作上加锁
-void thread_routine()
+void GameView::routine()
 {
     Manager *mManager = Manager::getInstance();
     std::vector<BaseScreen *>::const_iterator iter;
@@ -98,7 +98,7 @@ void GameView::run()
 
     bInitiated = true;
 
-    thread_routine();
+    routine();
 }
 
 void GameView::changeScreen(int screenCode)

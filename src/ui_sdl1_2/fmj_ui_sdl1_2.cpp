@@ -9,6 +9,7 @@ using namespace std;
 
 SDL_Surface* gpScreen = NULL;
 
+static bool eventFilter();
 
 class SDL1_2HMMathod :public HMMathod
 {
@@ -22,6 +23,7 @@ public:
     virtual void FillRect(void *distHaldle, int x, int y, int i, int j, int fillColor);
     virtual void FillColor(void *handle, int color);
     virtual void DrawScreen(void *haldle);
+    virtual void pollEvent(void);
 };
 
 void* SDL1_2HMMathod::InitBitmap(int w, int h, int type)
@@ -91,6 +93,11 @@ void SDL1_2HMMathod::DrawScreen(void *haldle)
     SDL_FreeSurface(tmp);
 }
  
+void SDL1_2HMMathod::pollEvent(void)
+{
+    eventFilter();
+}
+
 void SDL1_2HMMathod::DeleteBitmap(void *haldle)
 {
     SDL_Surface *surface = (SDL_Surface *)haldle;
@@ -141,11 +148,11 @@ int convertKey(int key)
 }
 
 
-bool eventFilter()
+static bool eventFilter()
 {
     bool bRet = false;
     SDL_Event event;
-    if (SDL_WaitEvent(&event))
+    if (SDL_PollEvent(&event))
     {
         switch (event.type)
         {
@@ -207,16 +214,6 @@ void mainGame()
     Manager::sCOLOR_TRANSP = SDL_MapRGB(gpScreen->format, 0xFF, 0x00, 0xFF); //透明色先设置成紫色
 
     gameMain *game_main = new gameMain();
-
-    //按键循环
-    while (1)
-    {
-        if (eventFilter())
-        {
-            cout << "end the game!" << endl;
-            break;
-        }       
-    }
 
     delete game_main;
 }

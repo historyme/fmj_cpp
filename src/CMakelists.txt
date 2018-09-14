@@ -1,4 +1,4 @@
 add_subdirectory(UI)
-#add_subdirectory(ui_sdl1_2)
+add_subdirectory(ui_sdl1_2)
 add_subdirectory(core)
 #add_subdirectory(unittest)

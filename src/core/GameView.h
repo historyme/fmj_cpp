@@ -34,6 +34,8 @@ public:
 private:
     void initRes();
 
+    void routine();
+
 private:
     //µ¥Àý
     static GameView *m_GameView;
